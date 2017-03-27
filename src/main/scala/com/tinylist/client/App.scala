@@ -7,6 +7,9 @@ object App {
   val component = ReactComponentB[Unit]("App")
       .render_P {
         case _ =>
-          h1("Tiny List")
+          div(`class` := "container")(
+            h1("Tiny List"),
+            p(TMDBApi.searchMovie("King"))
+          )
       }.build
 }
