@@ -18,10 +18,5 @@ object Main extends JSApp {
     dom.document.body.appendChild(container)
 
     ReactDOM.render(App.component(), container)
-
-    val search = dom.document.createElement("input").asInstanceOf[dom.raw.HTMLDivElement]
-    search.id = "search"
-    dom.document.body.appendChild(search)
-    $(search).autocomplete(AutocompleteOptions.source(List("apple", "ananas", "banana")))
   }
 }
