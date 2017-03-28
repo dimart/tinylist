@@ -8,7 +8,7 @@ object AppState {
   )
 }
 
-case class ListItem()
+abstract class ListItem()
 case class TextItem(text: String) extends ListItem
 case class MovieItem(title: String, overview: String) extends ListItem
 
