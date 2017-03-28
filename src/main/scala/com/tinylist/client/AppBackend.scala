@@ -17,4 +17,18 @@ class AppBackend(scope: BackendScope[Unit, AppState]) {
     e.persist()
     scope.modState(_.setIsEditingTitle(e.keyCode != KeyCode.Enter))
   }
+
+  def editUserInput(e: ReactEventI): Callback = {
+    e.persist()
+    scope.modState(_.setUserInput(e.target.value))
+  }
+
+  def mkListItem(e: ReactKeyboardEvent): Callback = {
+    e.persist()
+    scope.modState(s => {
+      if (e.keyCode == KeyCode.Enter) {
+        s.addListItem(TextItem(s.userInput)).setUserInput("")
+      } else s
+    })
+  }
 }

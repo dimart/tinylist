@@ -5,13 +5,21 @@ import japgolly.scalajs.react.vdom.all._
 import japgolly.scalajs.react._
 
 object AddItemBar {
-  val component = ReactComponentB[Unit]("AddItemBar")
-      .render_S(_ => {
+  val component = ReactComponentB[(AppState, AppBackend)]("AddItemBar")
+    .render_P {
+      case (state, backend) =>
         div(`class` := "container",
-          p("Add elements to your list here")
+          div(`class` := "input-group",
+            span(`class` := "input-group-btn",
+              button(`class` := "btn btn-secondary", `type` := "button", "Add")
+            ),
+            input(`class` := "form-control", `type` :="text", placeholder := "Type here...",
+              onChange ==> backend.editUserInput, onKeyUp ==> backend.mkListItem,
+              value := state.userInput)
+          )
         )
-      })
-      .build
+    }
+    .build
 
-  def apply() = component()
+  def apply(state: AppState, backend: AppBackend) = component((state, backend))
 }

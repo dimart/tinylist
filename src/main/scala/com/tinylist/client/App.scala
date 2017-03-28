@@ -20,7 +20,7 @@ object App {
               )
             )
           ),
-          AddItemBar(),
+          AddItemBar(state, scope.backend),
           ListView(state, scope.backend)
         )
       }
