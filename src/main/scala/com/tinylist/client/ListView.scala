@@ -7,6 +7,8 @@ object ListView {
   val component = ReactComponentB[(AppState, AppBackend)]("ListView")
     .render_P {
       case (state, backend) =>
+        println("rendered")
+
         def renderTitle() = {
           div(`class` := "col-xs-3",
             p(s"${state.title}", onDoubleClick --> backend.editTitle)
@@ -21,6 +23,11 @@ object ListView {
         }
 
         if (state.isEditingTitle) renderEditing() else renderTitle()
+    }
+    .shouldComponentUpdate { v =>
+      val (nextState, _) = v.nextProps
+      val (currState, _) = v.currentProps
+      !nextState.equals(currState)
     }
     .build
 
