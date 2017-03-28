@@ -10,7 +10,16 @@ object App {
       .backend(new AppBackend(_))
       .renderPS { case (scope, _, state) =>
         div(`class` := "app")(
-          h1("Tiny List"),
+          // Top navigation bar
+          nav(`class` := "navbar navbar-inverse navbar-fixed-top", role := "navigation",
+            div(`class` := "container",
+              div(`class` := "navbar-header",
+                a(`class` := "navbar-brand", href := "#",
+                  "Tiny List"
+                )
+              )
+            )
+          ),
           AddItemBar(),
           ListView(state, scope.backend)
         )

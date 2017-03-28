@@ -4,7 +4,7 @@ object AppState {
   def default = AppState(
     title = "New List",
     isEditingTitle = false,
-    items = Seq()
+    items = Seq(TextItem("Finish proposal"), TextItem("Eat an apple"))
   )
 }
 

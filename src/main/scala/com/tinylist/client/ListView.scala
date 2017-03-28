@@ -10,19 +10,30 @@ object ListView {
         println("rendered")
 
         def renderTitle() = {
-          div(`class` := "col-xs-3",
-            p(s"${state.title}", onDoubleClick --> backend.editTitle)
-          )
+          p(s"${state.title}", onDoubleClick --> backend.editTitle)
         }
 
         def renderEditing() = {
-          div(`class` := "col-xs-3",
-            input(`type` := "text", `value` := state.title, `class` := "form-control",
-              onChange ==> backend.editTitle, onKeyUp ==> backend.saveTitle)
-          )
+          input(`type` := "text", `value` := state.title, `class` := "form-control",
+            onChange ==> backend.editTitle, onKeyUp ==> backend.saveTitle)
         }
 
-        if (state.isEditingTitle) renderEditing() else renderTitle()
+        div(`class` := "container",
+          div(`class` := "row",
+            div(`class` := "col-lg-12 text-center",
+              if (state.isEditingTitle) renderEditing() else renderTitle()
+            )
+          ),
+          div(`class` := "row",
+            div(`class` := "card",
+            ul(`class` := "list-group list-group-flush",
+              state.items map {
+                case TextItem(t) => li(`class` := "list-group-item", t)
+              }
+            )
+          )
+          )
+        )
     }
     .shouldComponentUpdate { v =>
       val (nextState, _) = v.nextProps
