@@ -24,7 +24,7 @@ class AppBackend(scope: BackendScope[Unit, AppState]) {
     e.persist()
     val s = e.target.value
     if (s.length < 3)
-      scope.modState(_.setUserInput(s))
+      scope.modState(_.setUserInput(s).refreshCompletions(Seq()))
     else
       scope.modState(_.setUserInput(s)) >>
       Callback.future(TMDBApi.searchMovie(s) map { movies => scope.modState(_.refreshCompletions(movies.map(_.title)))})
@@ -34,7 +34,7 @@ class AppBackend(scope: BackendScope[Unit, AppState]) {
     e.persist()
     scope.modState(s => {
       if (e.keyCode == KeyCode.Enter) {
-        s.addListItem(TextItem(s.userInput)).setUserInput("")
+        s.addListItem(TextItem(s.userInput)).setUserInput("").refreshCompletions(Seq())
       } else s
     })
   }
