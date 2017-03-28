@@ -25,7 +25,7 @@ object TMDBApi {
 
   def searchMovie(query: String) = {
     Ajax.get(movieSearchURL(query)) map { xhr =>
-      JSON.parse(xhr.responseText).asInstanceOf[SearchResults].results.head.title
+      JSON.parse(xhr.responseText).asInstanceOf[SearchResults]
     }
   }
 
