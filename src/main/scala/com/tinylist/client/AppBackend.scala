@@ -3,6 +3,8 @@ package com.tinylist.client
 import japgolly.scalajs.react._
 import org.scalajs.dom.ext.KeyCode
 
+import scala.concurrent.ExecutionContext.Implicits.global
+
 class AppBackend(scope: BackendScope[Unit, AppState]) {
   def editTitle(): Callback = {
     scope.modState(_.setIsEditingTitle(true))
@@ -20,8 +22,13 @@ class AppBackend(scope: BackendScope[Unit, AppState]) {
 
   def editUserInput(e: ReactEventI): Callback = {
     e.persist()
-    scope.modState(_.setUserInput(e.target.value))
-  }
+    val s = e.target.value
+    if (s.length < 3)
+      scope.modState(_.setUserInput(s))
+    else
+      scope.modState(_.setUserInput(s)) >>
+      Callback.future(TMDBApi.searchMovie(s) map { movies => scope.modState(_.refreshCompletions(movies.map(_.title)))})
+   }
 
   def mkListItem(e: ReactKeyboardEvent): Callback = {
     e.persist()

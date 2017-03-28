@@ -1,20 +1,22 @@
 package com.tinylist.client
 
+abstract class ListItem()
+case class TextItem(text: String) extends ListItem
+case class MovieItem(title: String, overview: String) extends ListItem
+
 object AppState {
   def default = AppState(
     userInput = "",
+    completions = Seq(),
     title = "New List",
     isEditingTitle = false,
     items = Seq(TextItem("Finish proposal"), TextItem("Eat an apple"))
   )
 }
 
-abstract class ListItem()
-case class TextItem(text: String) extends ListItem
-case class MovieItem(title: String, overview: String) extends ListItem
-
 case class AppState(
      userInput: String,
+     completions: Seq[String],
      title: String,
      isEditingTitle: Boolean,
      items: Seq[ListItem]
@@ -34,5 +36,9 @@ case class AppState(
 
   def addListItem(v: ListItem): AppState = {
     copy(items = items :+ v)
+  }
+
+  def refreshCompletions(v: Seq[String]): AppState = {
+    copy(completions = v)
   }
 }

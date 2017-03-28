@@ -29,7 +29,9 @@ object ListView {
             ul(`class` := "list-group list-group-flush",
               state.items map {
                 case TextItem(t) => li(`class` := "list-group-item", t)
-              }
+              },
+              // DEBUG ONLY
+              state.completions map { s => li(`class` := "list-group-item", s) }
             )
           )
           )

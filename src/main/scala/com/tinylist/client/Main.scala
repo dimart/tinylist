@@ -1,13 +1,7 @@
 package com.tinylist.client
 
 import japgolly.scalajs.react.ReactDOM
-import japgolly.scalajs.react.vdom.all._
 import org.scalajs.dom
-
-import scala.concurrent.ExecutionContext.Implicits.global
-import org.querki.jquery._
-import com.tinylist.client.facades.AutocompleteFacade._
-import com.tinylist.client.facades.{AutocompleteOptions, JQueryUIAutocomplete}
 
 import scala.scalajs.js.JSApp
 

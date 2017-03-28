@@ -3,10 +3,9 @@ package com.tinylist.client
 import scala.concurrent.ExecutionContext.Implicits.global
 import org.scalajs.dom.ext.Ajax
 
+import scala.concurrent.Future
 import scala.scalajs.js
 import scala.scalajs.js.{JSON, URIUtils}
-
-import buildinfo.BuildInfo
 
 @js.native
 trait SearchResults extends js.Object {
@@ -21,14 +20,14 @@ trait MovieInfo extends js.Object {
 }
 
 object TMDBApi {
-  private val apiKey = BuildInfo.TMDBApiKey
+  private val apiKey = buildinfo.BuildInfo.TMDBApiKey
 
-  def searchMovie(query: String) = {
+  def searchMovie(query: String): Future[Seq[MovieInfo]] = {
     Ajax.get(movieSearchURL(query)) map { xhr =>
-      JSON.parse(xhr.responseText).asInstanceOf[SearchResults]
+      JSON.parse(xhr.responseText).asInstanceOf[SearchResults].results
     }
   }
 
-  def movieSearchURL(q: String) =
+  private def movieSearchURL(q: String) =
     s"https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${URIUtils.encodeURIComponent(q)}"
 }
