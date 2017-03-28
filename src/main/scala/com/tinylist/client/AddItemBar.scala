@@ -9,13 +9,26 @@ object AddItemBar {
     .render_P {
       case (state, backend) =>
         div(`class` := "container",
-          div(`class` := "input-group",
-            span(`class` := "input-group-btn",
-              button(`class` := "btn btn-secondary", `type` := "button", "Add")
-            ),
-            input(`class` := "form-control", `type` :="text", placeholder := "Type here...",
-              onChange ==> backend.editUserInput, onKeyUp ==> backend.mkListItem,
-              value := state.userInput)
+          div(`class` := "row",
+            div(`class` := "input-group",
+              span(`class` := "input-group-btn",
+                button(`class` := "btn btn-secondary", `type` := "button", "Add")
+              ),
+              input(`class` := "form-control", `type` :="text", placeholder := "Type here...",
+                onChange ==> backend.editUserInput, onKeyUp ==> backend.mkListItem,
+                value := state.userInput)
+            )
+          ),
+          div(`class` := "row",
+          if (state.completions.nonEmpty)
+            div(`class` := "list-group",
+              state.completions.take(3) map { s =>
+                button(`type` := "button", `class` := "list-group-item list-group-item-action", s,
+                       span(`class` := "badge badge-default badge-pill", "Movie"))
+              }
+            )
+          else
+            div
           )
         )
     }
