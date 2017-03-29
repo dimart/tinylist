@@ -39,10 +39,29 @@ lazy val client = project
   )
   .enablePlugins(ScalaJSPlugin, BuildInfoPlugin)
 
+
 lazy val server = project
   .settings(baseSettings)
   .settings(logging)
   .settings(
+    // watchSources ++= (watchSources in client).value,
+    resourceGenerators in Compile += Def.task {
+      def andSourceMap(aFile: java.io.File) =
+        aFile -> file(aFile.getAbsolutePath + ".map")
+
+      val target = (classDirectory in Compile).value / "public"
+      val jsdeps = (packageJSDependencies in (client, Compile)).value
+      val jslauncher = (scalaJSLauncher in (client, Compile)).value.data.content
+      val (js, map) = andSourceMap((fastOptJS in (client, Compile)).value.data)
+      IO.write(target / "client-launcher.js", jslauncher)
+      IO.copy(
+        Seq(
+          js -> target / js.getName,
+          map -> target / map.getName,
+          jsdeps -> target / jsdeps.getName
+        )
+      ).toSeq
+    }.taskValue,
     libraryDependencies ++= Seq(
       "com.typesafe.akka" %% "akka-http" % "10.0.5"
     )
