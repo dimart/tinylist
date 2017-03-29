@@ -1,3 +1,5 @@
+import sbt.Keys._
+
 val TMDBApiKey = sys.props.getOrElse("TMDBApiKey", default = "DEFINE YOUR API KEY HERE")
 
 val orgSettings = Seq(
@@ -8,6 +10,13 @@ val orgSettings = Seq(
 lazy val baseSettings = Seq(
   scalaVersion := "2.11.8"
 ) ++ orgSettings
+
+lazy val logging =
+  libraryDependencies ++= Seq(
+    "com.typesafe.scala-logging" %% "scala-logging" % "3.5.0",
+    "com.typesafe.akka" %% "akka-slf4j" % "2.4.16",
+    "ch.qos.logback" % "logback-classic" % "1.2.1"
+  )
 
 lazy val client = project
   .settings(baseSettings)
@@ -32,6 +41,12 @@ lazy val client = project
 
 lazy val server = project
   .settings(baseSettings)
+  .settings(logging)
+  .settings(
+    libraryDependencies ++= Seq(
+      "com.typesafe.akka" %% "akka-http" % "10.0.5"
+    )
+  )
 
 lazy val tinylist = project
   .in(file("."))
