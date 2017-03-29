@@ -7,8 +7,6 @@ object ListView {
   val component = ReactComponentB[(AppState, AppBackend)]("ListView")
     .render_P {
       case (state, backend) =>
-        println("rendered")
-
         def renderTitle() = {
           h4(s"${state.title}", onDoubleClick --> backend.editTitle)
         }

@@ -20,26 +20,26 @@ object AddItemBar {
             )
           ),
           div(`class` := "row",
-          if (state.completions.nonEmpty)
-            div(`class` := "list-group",
-              state.completions.take(3) map {
-                case t@TextItem(_) =>
+            if (state.completions.nonEmpty)
+              div(`class` := "list-group",
+                state.completions.take(3) map {
+                  case t@TextItem(_) =>
+                      button(
+                        `type` := "button", `class` := "list-group-item list-group-item-action",
+                        onClick --> backend.addListItem(t),
+                        t.text,
+                        span(`class` := "badge badge-default badge-pill", "Text"))
+                  case mi@MovieItem(t, o, _) =>
                     button(
-                      `type` := "button", `class` := "list-group-item list-group-item-action",
-                      onClick --> backend.addListItem(t),
-                      t.text,
-                      span(`class` := "badge badge-default badge-pill", "Text"))
-                case mi@MovieItem(t, o, _) =>
-                  button(
-                    `type` := "button", `class` := "list-group-item list-group-item-action flex-column align-items-start",
-                    onClick --> backend.addListItem(mi),
-                    h5(`class` := "mb-1", t),
-                    p(`class` := "mb-1", o),
-                    span(`class` := "badge badge-default badge-pill", "Movie"))
-              }
-            )
-          else
-            div
+                      `type` := "button", `class` := "list-group-item list-group-item-action flex-column align-items-start",
+                      onClick --> backend.addListItem(mi),
+                      h5(`class` := "mb-1", t),
+                      p(`class` := "mb-1", o),
+                      span(`class` := "badge badge-default badge-pill", "Movie"))
+                }
+              )
+            else
+              div
           )
         )
     }
