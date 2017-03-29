@@ -2,7 +2,7 @@ package com.tinylist.client
 
 abstract class ListItem()
 case class TextItem(text: String) extends ListItem
-case class MovieItem(title: String, overview: String) extends ListItem
+case class MovieItem(title: String, overview: String, posterURL: String) extends ListItem
 
 object AppState {
   def default = AppState(
@@ -10,13 +10,13 @@ object AppState {
     completions = Seq(),
     title = "New List",
     isEditingTitle = false,
-    items = Seq(TextItem("Finish proposal"), TextItem("Eat an apple"))
+    items = Seq(TextItem("Tap me to delete"))
   )
 }
 
 case class AppState(
      userInput: String,
-     completions: Seq[String],
+     completions: Seq[ListItem],
      title: String,
      isEditingTitle: Boolean,
      items: Seq[ListItem]
@@ -38,7 +38,11 @@ case class AppState(
     copy(items = items :+ v)
   }
 
-  def refreshCompletions(v: Seq[String]): AppState = {
+  def removeListItem(v: ListItem): AppState = {
+    copy(items = items.filter(!_.equals(v)))
+  }
+
+  def refreshCompletions(v: Seq[ListItem]): AppState = {
     copy(completions = v)
   }
 }

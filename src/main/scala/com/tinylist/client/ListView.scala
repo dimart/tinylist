@@ -10,7 +10,7 @@ object ListView {
         println("rendered")
 
         def renderTitle() = {
-          p(s"${state.title}", onDoubleClick --> backend.editTitle)
+          h4(s"${state.title}", onDoubleClick --> backend.editTitle)
         }
 
         def renderEditing() = {
@@ -20,7 +20,7 @@ object ListView {
 
         div(`class` := "container",
           div(`class` := "row",
-            div(`class` := "col-lg-12 text-center",
+            div(`class` := "col-lg-12 text-start",
               if (state.isEditingTitle) renderEditing() else renderTitle()
             )
           ),
@@ -28,7 +28,17 @@ object ListView {
             div(`class` := "card",
             ul(`class` := "list-group list-group-flush",
               state.items map {
-                case TextItem(t) => li(`class` := "list-group-item", t)
+                case ti @ TextItem(t) =>
+                  button(`type` := "button", `class` := "list-group-item", onClick --> backend.removeListItem(ti), t)
+                case mi @ MovieItem(t, o, posterURL) =>
+                  button(
+                      `type` := "button", `class` := "list-group-item list-group-item-action flex-column align-items-start",
+                      onClick --> backend.removeListItem(mi),
+                      img(`class` := "mb-1", src := posterURL),
+                      h5(`class` := "mb-1", t),
+                      p(`class` := "mb-1", o),
+                      span(`class` := "badge badge-default badge-pill", "Movie")
+                  )
               }
             )
           )

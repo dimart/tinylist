@@ -27,15 +27,31 @@ class AppBackend(scope: BackendScope[Unit, AppState]) {
       scope.modState(_.setUserInput(s).refreshCompletions(Seq()))
     else
       scope.modState(_.setUserInput(s)) >>
-      Callback.future(TMDBApi.searchMovie(s) map { movies => scope.modState(_.refreshCompletions(movies.map(_.title)))})
+      Callback.future(
+        TMDBApi.searchMovie(s) map {
+          results => {
+            scope.modState(_.refreshCompletions(results map {
+              res => {
+                MovieItem(title = res.title, overview = res.overview, posterURL = TMDBApi.moviePosterURL(res.poster_path))
+              }
+            }))
+      }})
    }
 
-  def mkListItem(e: ReactKeyboardEvent): Callback = {
+  def userInputOnKeyUp(e: ReactKeyboardEvent): Callback = {
     e.persist()
     scope.modState(s => {
       if (e.keyCode == KeyCode.Enter) {
         s.addListItem(TextItem(s.userInput)).setUserInput("").refreshCompletions(Seq())
       } else s
     })
+  }
+
+  def addListItem(li: ListItem): Callback = {
+    scope.modState(s => s.addListItem(li).setUserInput("").refreshCompletions(Seq()))
+  }
+
+  def removeListItem(li: ListItem): Callback = {
+    scope.modState(s => s.removeListItem(li))
   }
 }
