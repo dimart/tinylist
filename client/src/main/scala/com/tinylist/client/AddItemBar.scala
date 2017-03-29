@@ -19,7 +19,7 @@ object AddItemBar {
                 value := state.userInput)
             )
           ),
-          div(`class` := "row",
+          div(`class` := "row fixedrow",
             if (state.completions.nonEmpty)
               div(`class` := "list-group",
                 state.completions.take(3) map {
