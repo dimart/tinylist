@@ -1,9 +1,10 @@
-package routes
+package com.tinylist.server.routes
 
-import akka.http.scaladsl.model.{ContentTypes, HttpEntity, HttpResponse}
-import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.server.Directives._
 
+/**
+  * Programmed by dmitriipetukhov on 3/30/17.
+  */
 object PublicRoutes {
   val routes =
     concat(

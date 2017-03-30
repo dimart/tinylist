@@ -11,11 +11,11 @@ object ListView {
     .render_P {
       case (state, backend) =>
         def renderTitle() = {
-          h4(s"${state.title}", onDoubleClick --> backend.editTitle)
+          h4(s"${state.tinyList.title}", onDoubleClick --> backend.editTitle)
         }
 
         def renderEditing() = {
-          input(`type` := "text", `value` := state.title, `class` := "form-control",
+          input(`type` := "text", `value` := state.tinyList.title, `class` := "form-control",
             onChange ==> backend.editTitle, onKeyUp ==> backend.saveTitle)
         }
 
@@ -28,7 +28,7 @@ object ListView {
           div(`class` := "row",
             div(`class` := "card",
             ul(`class` := "list-group list-group-flush",
-              state.items map {
+              state.tinyList.items map {
                 case ti @ TextItem(t) =>
                   button(`type` := "button", `class` := "list-group-item", onClick --> backend.removeListItem(ti), t)
                 case mi @ MovieItem(t, o, posterURL) =>

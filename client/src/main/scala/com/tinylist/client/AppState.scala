@@ -7,18 +7,18 @@ object AppState {
   def default = AppState(
     userInput = "",
     completions = Seq(),
-    title = "New List",
-    isEditingTitle = false,
-    items = Seq(TextItem("Tap me to delete"))
+    tinyList = TinyList("New List", Seq(TextItem("Tap me to delete"))),
+    tinyListId = "",
+    isEditingTitle = false
   )
 }
 
 case class AppState(
-     userInput: String,
-     completions: Seq[ListItem],
-     title: String,
-     isEditingTitle: Boolean,
-     items: Seq[ListItem]
+                     userInput: String,
+                     completions: Seq[ListItem],
+                     tinyList: TinyList,
+                     tinyListId: String,
+                     isEditingTitle: Boolean
 ) {
 
   def setUserInput(v: String): AppState = {
@@ -30,18 +30,24 @@ case class AppState(
   }
 
   def setTitle(v: String): AppState = {
-    copy(title = v)
+    copy(tinyList = TinyList(v, this.tinyList.items))
   }
 
   def addListItem(v: ListItem): AppState = {
-    copy(items = items :+ v)
+    val tl = this.tinyList
+    copy(tinyList = TinyList(tl.title, tl.items :+ v))
   }
 
   def removeListItem(v: ListItem): AppState = {
-    copy(items = items.filter(!_.equals(v)))
+    val tl = this.tinyList
+    copy(tinyList = TinyList(tl.title, tl.items.filter(!_.equals(v))))
   }
 
   def refreshCompletions(v: Seq[ListItem]): AppState = {
     copy(completions = v)
+  }
+
+  def setTinyListId(v: String): AppState = {
+    copy(tinyListId = v)
   }
 }

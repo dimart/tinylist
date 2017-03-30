@@ -2,11 +2,12 @@ package com.tinylist
 package client
 
 import api._
-
+import autowire._
 import japgolly.scalajs.react._
 import org.scalajs.dom.ext.KeyCode
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import upickle.default.{read => uread}
 
 class AppBackend(scope: BackendScope[Unit, AppState]) {
   def editTitle(): Callback = {
@@ -59,6 +60,11 @@ class AppBackend(scope: BackendScope[Unit, AppState]) {
   }
 
   def save(): Callback = {
-    Callback.alert("Not implemented")
+    scope.state.flatMap(state =>
+      Callback.future(
+        ApiClient[AutowireApi].save(state.tinyList).call().map(id =>
+          scope.modState(_.setTinyListId(id.base64UUID)))
+      )
+    )
   }
 }

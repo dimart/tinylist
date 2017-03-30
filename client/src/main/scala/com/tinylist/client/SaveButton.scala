@@ -7,14 +7,10 @@ object SaveButton {
   val component = ReactComponentB[(AppState, AppBackend)]("SaveButton")
     .render_P {
       case (state, backend) =>
-        div(`class` := "container",
-          div(`class` := "row",
-            button(
-              `type` := "button",
-              `class` := "btn btn-info", onClick --> backend.save,
-              "Save List"
-            )
-          )
+        button(
+          `type` := "button",
+          `class` := "btn btn-info", onClick --> backend.save,
+          "Save List"
         )
     }
     .build

@@ -1,6 +1,6 @@
 package com.tinylist.api
 
-abstract class ListItem()
+sealed trait ListItem
 case class TextItem(text: String) extends ListItem
 case class MovieItem(title: String, overview: String, posterURL: String) extends ListItem
 

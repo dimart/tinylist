@@ -22,7 +22,12 @@ object App {
           ),
           AddItemBar(state, scope.backend),
           ListView(state, scope.backend),
-          SaveButton(state, scope.backend)
+          div(`class` := "container",
+            div(`class` := "row",
+              SaveButton(state, scope.backend),
+              TinyListURLAlert(state, scope.backend)
+            )
+          )
         )
       }
       .build
