@@ -14,10 +14,13 @@ class AutowireApiImplementation extends AutowireApi {
     TinyListId(uuid)
   }
 
+
+  def fetch(tinyListId: TinyListId): TinyList = ???
+
   /*
-    Thanks to:
-    https://github.com/scalacenter/scastie/blob/master/balancer/src/main/scala/com.olegych.scastie.balancer/SnippetsContainer.scala#L259
-   */
+      Thanks to:
+      https://github.com/scalacenter/scastie/blob/master/balancer/src/main/scala/com.olegych.scastie.balancer/SnippetsContainer.scala#L259
+     */
   private def randomUrlFirendlyBase64UUID: String = {
     def toBase64(uuid: UUID): String = {
       val (high, low) =

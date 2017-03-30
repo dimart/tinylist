@@ -63,8 +63,17 @@ class AppBackend(scope: BackendScope[Unit, AppState]) {
     scope.state.flatMap(state =>
       Callback.future(
         ApiClient[AutowireApi].save(state.tinyList).call().map(id =>
-          scope.modState(_.setTinyListId(id.base64UUID)))
+          scope.modState(_.setTinyListId(id)))
       )
     )
+  }
+
+  def fetch(tinyListId: TinyListId): Callback = {
+    scope.state.flatMap(state =>
+      Callback.future(
+        ApiClient[AutowireApi].fetch(tinyListId).call().map(tl =>
+          scope.modState(_.setTinyList(tl)))
+      )
+    ) >> scope.modState(_.setTinyListId(tinyListId))
   }
 }

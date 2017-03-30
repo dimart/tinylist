@@ -8,7 +8,7 @@ object AppState {
     userInput = "",
     completions = Seq(),
     tinyList = TinyList("New List", Seq(TextItem("Tap me to delete"))),
-    tinyListId = "",
+    tinyListId = TinyListId(""),
     isEditingTitle = false
   )
 }
@@ -17,7 +17,7 @@ case class AppState(
                      userInput: String,
                      completions: Seq[ListItem],
                      tinyList: TinyList,
-                     tinyListId: String,
+                     tinyListId: TinyListId,
                      isEditingTitle: Boolean
 ) {
 
@@ -47,7 +47,11 @@ case class AppState(
     copy(completions = v)
   }
 
-  def setTinyListId(v: String): AppState = {
+  def setTinyListId(v: TinyListId): AppState = {
     copy(tinyListId = v)
+  }
+
+  def setTinyList(v: TinyList): AppState = {
+    copy(tinyList = v)
   }
 }

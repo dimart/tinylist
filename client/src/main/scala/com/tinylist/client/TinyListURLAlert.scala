@@ -8,13 +8,13 @@ object TinyListURLAlert {
   val component = ReactComponentB[(AppState, AppBackend)]("TinyListURLNotification")
     .render_P {
       case (state, backend) =>
-        if (state.tinyListId.isEmpty) div
+        if (state.tinyListId.base64UUID.isEmpty) div
         else {
           div(
             `role` := "alert",
             `class` := "alert alert-success",
             strong("Saved!"),
-            a(href := state.tinyListId, `class` := "alert-link", s" ${dom.window.location.hostname}/${state.tinyListId}")
+            a(href := state.tinyListId.base64UUID, `class` := "alert-link", s" ${dom.window.location.hostname}/${state.tinyListId}")
           )
         }
     }
