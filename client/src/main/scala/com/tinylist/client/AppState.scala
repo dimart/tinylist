@@ -7,7 +7,7 @@ object AppState {
   def default = AppState(
     userInput = "",
     completions = Seq(),
-    tinyList = TinyList("New List", Seq(TextItem("Tap me to delete"))),
+    tinyList = TinyLists.default,
     tinyListId = TinyListId(""),
     isEditingTitle = false
   )
