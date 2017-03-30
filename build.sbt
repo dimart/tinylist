@@ -25,6 +25,7 @@ lazy val client = project
     persistLauncher in Compile := true,
     libraryDependencies ++= Seq(
       "com.github.japgolly.scalajs-react" %%% "core" % "0.11.3",
+      "com.github.japgolly.scalajs-react" %%% "extra" % "0.11.3",
       "org.querki" %%% "jquery-facade" % "1.0",
       "org.querki" %%% "querki-jsext" % "0.8"
     ),
