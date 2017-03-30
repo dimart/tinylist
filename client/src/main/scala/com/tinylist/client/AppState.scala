@@ -1,8 +1,7 @@
-package com.tinylist.client
+package com.tinylist
+package client
 
-abstract class ListItem()
-case class TextItem(text: String) extends ListItem
-case class MovieItem(title: String, overview: String, posterURL: String) extends ListItem
+import api._
 
 object AppState {
   def default = AppState(

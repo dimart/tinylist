@@ -1,3 +1,4 @@
+import org.scalajs.sbtplugin.cross.CrossProject
 import sbt.Keys._
 
 val TMDBApiKey = sys.props.getOrElse("TMDBApiKey", default = "DEFINE YOUR API KEY HERE")
@@ -38,7 +39,7 @@ lazy val client = project
     buildInfoKeys := Seq[BuildInfoKey]("TMDBApiKey" -> TMDBApiKey)
   )
   .enablePlugins(ScalaJSPlugin, BuildInfoPlugin)
-
+  .dependsOn(apiJS)
 
 lazy val server = project
   .settings(baseSettings)
@@ -66,11 +67,30 @@ lazy val server = project
       "com.typesafe.akka" %% "akka-http" % "10.0.5"
     )
   )
+  .dependsOn(apiJVM)
+
+lazy val api =
+  CrossProject(id = "api",
+               base = file(".cross/api" ),
+               crossType = CrossType.Pure)
+  .settings(baseSettings)
+  .settings(
+    libraryDependencies ++= Seq(
+      "com.lihaoyi" %%% "autowire" % "0.2.6",
+      "com.lihaoyi" %%% "upickle" % "0.4.4"
+    ),
+    unmanagedSourceDirectories in Compile += (baseDirectory in ThisBuild).value / "api" / "src" / "main" / "scala"
+  )
+
+lazy val apiJVM = api.jvm
+lazy val apiJS = api.js
 
 lazy val tinylist = project
   .in(file("."))
   .aggregate(
     client,
-    server
+    server,
+    apiJVM,
+    apiJS
   )
   .settings(orgSettings)

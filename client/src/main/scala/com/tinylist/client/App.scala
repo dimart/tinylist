@@ -21,7 +21,8 @@ object App {
             )
           ),
           AddItemBar(state, scope.backend),
-          ListView(state, scope.backend)
+          ListView(state, scope.backend),
+          SaveButton(state, scope.backend)
         )
       }
       .build

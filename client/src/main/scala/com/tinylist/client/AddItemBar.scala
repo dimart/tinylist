@@ -1,4 +1,7 @@
-package com.tinylist.client
+package com.tinylist
+package client
+
+import api._
 
 import japgolly.scalajs.react.ReactComponentB
 import japgolly.scalajs.react.vdom.all._

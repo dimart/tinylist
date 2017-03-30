@@ -1,4 +1,7 @@
-package com.tinylist.client
+package com.tinylist
+package client
+
+import api._
 
 import japgolly.scalajs.react._
 import org.scalajs.dom.ext.KeyCode
@@ -53,5 +56,9 @@ class AppBackend(scope: BackendScope[Unit, AppState]) {
 
   def removeListItem(li: ListItem): Callback = {
     scope.modState(s => s.removeListItem(li))
+  }
+
+  def save(): Callback = {
+    Callback.alert("Not implemented")
   }
 }
