@@ -6,3 +6,7 @@ case class MovieItem(title: String, overview: String, posterURL: String) extends
 
 case class TinyList(title: String, items: Seq[ListItem])
 case class TinyListId(base64UUID: String)
+
+object TinyLists {
+  val default = TinyList("New List", Seq(TextItem("Tap me to delete")))
+}
