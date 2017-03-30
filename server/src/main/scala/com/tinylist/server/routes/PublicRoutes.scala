@@ -9,10 +9,13 @@ object PublicRoutes {
   val routes =
     concat(
       get(
-        pathSingleSlash(
-          getFromResource("public/views/index.html")
+        concat(
+          pathSingleSlash(index),
+          path(Segment ~ Slash.?)((_) => index)
         )
       ),
       AssetsRoutes.routes
     )
+
+  val index = getFromResource("public/views/index.html")
 }
