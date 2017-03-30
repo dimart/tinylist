@@ -19,9 +19,10 @@ object ServerMain {
 
     val routes =
       concat(
-        AutowireApiRoutes.routes,
+        new AutowireApiRoutes(new AutowireApiImplementation).routes,
         PublicRoutes.routes
       )
+
     Await.result(Http().bindAndHandle(routes, "0.0.0.0", 8080), 1.seconds)
     logger.info(s"Server online at localhost:8080")
 
