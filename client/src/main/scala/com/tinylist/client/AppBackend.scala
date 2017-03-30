@@ -9,7 +9,7 @@ import org.scalajs.dom.ext.KeyCode
 import scala.concurrent.ExecutionContext.Implicits.global
 import upickle.default.{read => uread}
 
-class AppBackend(scope: BackendScope[Unit, AppState]) {
+class AppBackend(scope: BackendScope[AppProps, AppState]) {
   def editTitle(): Callback = {
     scope.modState(_.setIsEditingTitle(true))
   }
@@ -71,9 +71,18 @@ class AppBackend(scope: BackendScope[Unit, AppState]) {
   def fetch(tinyListId: TinyListId): Callback = {
     scope.state.flatMap(state =>
       Callback.future(
-        ApiClient[AutowireApi].fetch(tinyListId).call().map(tl =>
-          scope.modState(_.setTinyList(tl)))
+        ApiClient[AutowireApi].fetch(tinyListId).call().map(tl => {
+          if (tl == TinyLists.default) goHome() else {
+            scope.modState(_.setTinyList(tl)) >> scope.modState(_.setTinyListId(tinyListId))
+          }
+        })
       )
-    ) >> scope.modState(_.setTinyListId(tinyListId))
+    )
+  }
+
+  def goHome(): Callback = {
+    scope.props.flatMap(
+      props => props.router.map(_.set(Home)).getOrElse(Callback(()))
+    ) >> scope.modState(_.setTinyListId(TinyListId(""))) >> scope.modState(_.setTinyList(TinyLists.default))
   }
 }

@@ -1,8 +1,7 @@
-package com.tinylist.client
+package com.tinylist
+package client
 
-/**
-  * Programmed by dmitriipetukhov on 3/30/17.
-  */
-object AppProps {
+import api._
+import japgolly.scalajs.react.extra.router.RouterCtl
 
-}
+case class AppProps(router: Option[RouterCtl[Page]], tinyListId: Option[TinyListId])
