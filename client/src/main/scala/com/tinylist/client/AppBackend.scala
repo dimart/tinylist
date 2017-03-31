@@ -1,13 +1,13 @@
 package com.tinylist
 package client
 
-import api._
 import autowire._
+import com.tinylist.api._
 import japgolly.scalajs.react._
 import org.scalajs.dom.ext.KeyCode
+import upickle.default.{read => uread}
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import upickle.default.{read => uread}
 
 class AppBackend(scope: BackendScope[AppProps, AppState]) {
   def editTitle(): Callback = {
