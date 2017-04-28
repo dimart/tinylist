@@ -8,5 +8,5 @@ case class TinyList(title: String, items: Seq[ListItem])
 case class TinyListId(base64UUID: String)
 
 object TinyLists {
-  val default = TinyList("New List", Seq(TextItem("Tap me to delete")))
+  val default = TinyList("New List", Seq(TextItem("Sample text item")))
 }

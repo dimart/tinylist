@@ -16,21 +16,31 @@ object App {
               div(`class` := "container",
                 div(`class` := "navbar-header",
                   a(`class` := "navbar-brand", href := "#",
-                    "Tiny List"
+                    "Tiny List!"
                   )
                 )
               )
             ),
-            AddItemBar(state, scope.backend),
-            ListView(state, scope.backend),
-            div(`class` := "container",
-              div(`class` := "row",
-                SaveButton(state, scope.backend),
-                if (state.tinyListId != props.tinyListId.getOrElse("X"))
-                  TinyListURLAlert(state, scope.backend)
-                else
-                  div
-              )
+            div(
+              `class` := "container",
+
+              p(
+                `class` := "lead",
+                "Create lists and share them!",
+                p(
+                  small(
+                  "Your list items can be movie infos from TMDB, songs samples from Spotify etc."
+                  )
+                )
+              ),
+
+              AddItemBar(state, scope.backend),
+              ListView(state, scope.backend),
+              SaveButton(state, scope.backend),
+              if (state.tinyListId != props.tinyListId.getOrElse("X"))
+                TinyListURLAlert(state, scope.backend)
+              else
+                div
             )
           )
       }

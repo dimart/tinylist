@@ -11,16 +11,14 @@ object AddItemBar {
   val component = ReactComponentB[(AppState, AppBackend)]("AddItemBar")
     .render_P {
       case (state, backend) =>
-        div(`class` := "container",
-          div(`class` := "row",
-            div(`class` := "input-group",
-              span(`class` := "input-group-btn",
-                button(`class` := "btn btn-secondary", `type` := "button", "Add")
-              ),
-              input(`class` := "form-control", `type` :="text", placeholder := "Type here...",
-                onChange ==> backend.editUserInput, onKeyUp ==> backend.userInputOnKeyUp,
-                value := state.userInput)
-            )
+        div(
+          div(`class` := "input-group",
+            span(`class` := "input-group-btn",
+              button(`class` := "btn btn-secondary", `type` := "button", "Add")
+            ),
+            input(`class` := "form-control", `type` :="text", placeholder := "Type here...",
+              onChange ==> backend.editUserInput, onKeyUp ==> backend.userInputOnKeyUp,
+              value := state.userInput)
           ),
           div(`class` := "row fixedrow",
             if (state.completions.nonEmpty)

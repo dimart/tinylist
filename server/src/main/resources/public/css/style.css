@@ -6,3 +6,15 @@ body {
     position: fixed;
     z-index: 1;
 }
+
+.icon {
+    max-width: 80px;
+    margin: 0 auto;
+    display: block;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: inherit;
+}

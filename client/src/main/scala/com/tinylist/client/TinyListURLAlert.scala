@@ -12,9 +12,15 @@ object TinyListURLAlert {
         else {
           div(
             `role` := "alert",
-            `class` := "alert alert-success",
+            `class` := "footer alert alert-success",
             strong("Saved!"),
-            a(href := state.tinyListId.base64UUID, `class` := "alert-link", s" ${dom.window.location.hostname}/${state.tinyListId.base64UUID}")
+            p(
+              a(
+                href := state.tinyListId.base64UUID,
+                `class` := "alert-link",
+                s" ${dom.window.location.hostname}/${state.tinyListId.base64UUID}"
+              )
+            )
           )
         }
     }

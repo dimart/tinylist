@@ -2,7 +2,6 @@ package com.tinylist
 package client
 
 import api._
-
 import japgolly.scalajs.react.ReactComponentB
 import japgolly.scalajs.react.vdom.all._
 
@@ -19,30 +18,57 @@ object ListView {
             onChange ==> backend.editTitle, onKeyUp ==> backend.saveTitle)
         }
 
-        div(`class` := "container",
-          div(`class` := "row",
-            div(`class` := "col-lg-12 text-start",
-              if (state.isEditingTitle) renderEditing() else renderTitle()
-            )
-          ),
-          div(`class` := "row",
-            div(`class` := "card",
-            ul(`class` := "list-group list-group-flush",
-              state.tinyList.items map {
-                case ti @ TextItem(t) =>
-                  button(`type` := "button", `class` := "list-group-item", onClick --> backend.removeListItem(ti), t)
-                case mi @ MovieItem(t, o, posterURL) =>
-                  button(
-                      `type` := "button", `class` := "list-group-item list-group-item-action flex-column align-items-start",
-                      onClick --> backend.removeListItem(mi),
-                      img(`class` := "mb-1", src := posterURL),
-                      h5(`class` := "mb-1", t),
-                      p(`class` := "mb-1", o),
-                      span(`class` := "badge badge-default badge-pill", "Movie")
+        div(
+          if (state.isEditingTitle) renderEditing() else renderTitle(),
+          div(
+            state.tinyList.items map {
+              case ti @ TextItem(t) =>
+                div(
+                  `class` := "media panel panel-default",
+                  div(
+                    `class` := "media-body panel-body",
+                    t
+                  ),
+
+                  div(
+                    `class` := "media-right",
+                    p(
+                      a(
+                        `class` := "badge btn",
+                        onClick --> backend.removeListItem(ti),
+                        "Remove"
+                      )
+                    )
                   )
-              }
-            )
-          )
+                )
+              case mi @ MovieItem(t, o, posterURL) =>
+                div(
+                  `class` := "media panel panel-default",
+                  div(
+                    `class` := "media-left",
+                    img(
+                      `class` := "media-object",
+                      src := posterURL
+                    )
+                  ),
+                  div(
+                    `class` := "media-body panel-body",
+                    h5(`class` := "media-heading", t),
+                    p(o)
+                  ),
+
+                  div(
+                    `class` := "media-right",
+                    p(
+                      a(
+                        `class` := "badge btn",
+                        onClick --> backend.removeListItem(mi),
+                        "Remove"
+                      )
+                    )
+                  )
+                )
+            }
           )
         )
     }
