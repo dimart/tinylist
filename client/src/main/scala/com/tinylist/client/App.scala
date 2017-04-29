@@ -16,7 +16,7 @@ object App {
               div(`class` := "container",
                 div(`class` := "navbar-header",
                   a(`class` := "navbar-brand", href := "#",
-                    "Tiny List!"
+                    "Tiny List"
                   )
                 )
               )

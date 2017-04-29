@@ -32,12 +32,10 @@ object ListView {
 
                   div(
                     `class` := "media-right",
-                    p(
-                      a(
-                        `class` := "badge btn",
-                        onClick --> backend.removeListItem(ti),
-                        "Remove"
-                      )
+                    span(
+                      `class` := "remove",
+                      onClick --> backend.removeListItem(ti),
+                      "Remove"
                     )
                   )
                 )
@@ -59,12 +57,10 @@ object ListView {
 
                   div(
                     `class` := "media-right",
-                    p(
-                      a(
-                        `class` := "badge btn",
-                        onClick --> backend.removeListItem(mi),
-                        "Remove"
-                      )
+                    span(
+                      `class` := "remove",
+                      onClick --> backend.removeListItem(mi),
+                      "Remove"
                     )
                   )
                 )

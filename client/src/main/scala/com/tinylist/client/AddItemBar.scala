@@ -2,7 +2,6 @@ package com.tinylist
 package client
 
 import api._
-
 import japgolly.scalajs.react.ReactComponentB
 import japgolly.scalajs.react.vdom.all._
 import japgolly.scalajs.react._
@@ -12,36 +11,44 @@ object AddItemBar {
     .render_P {
       case (state, backend) =>
         div(
-          div(`class` := "input-group",
-            span(`class` := "input-group-btn",
-              button(`class` := "btn btn-secondary", `type` := "button", "Add")
-            ),
-            input(`class` := "form-control", `type` :="text", placeholder := "Type here...",
-              onChange ==> backend.editUserInput, onKeyUp ==> backend.userInputOnKeyUp,
-              value := state.userInput)
+          `class` := "dropdown autocomplete",
+
+          input(
+            `class` := "dropdown-toggle",
+            `type` :="text",
+            placeholder := "Add list item here...",
+            "data-toggle".reactAttr := "dropdown",
+            onChange ==> backend.editUserInput,
+            onKeyUp ==> backend.userInputOnKeyUp,
+            value := state.userInput
           ),
-          div(`class` := "row fixedrow",
-            if (state.completions.nonEmpty)
-              div(`class` := "list-group",
-                state.completions.take(3) map {
-                  case t@TextItem(_) =>
-                      button(
-                        `type` := "button", `class` := "list-group-item list-group-item-action",
-                        onClick --> backend.addListItem(t),
-                        t.text,
-                        span(`class` := "badge badge-default badge-pill", "Text"))
-                  case mi@MovieItem(t, o, _) =>
-                    button(
-                      `type` := "button", `class` := "list-group-item list-group-item-action flex-column align-items-start",
-                      onClick --> backend.addListItem(mi),
-                      h5(`class` := "mb-1", t),
-                      p(`class` := "mb-1", o),
-                      span(`class` := "badge badge-default badge-pill", "Movie"))
-                }
-              )
+
+          if (state.completions.nonEmpty)
+            ul(`class` := "dropdown-menu dialog open", role := "menu",
+              state.completions.take(3) map {
+                case t@TextItem(_) =>
+                  li(
+                      onClick --> backend.addListItem(t),
+                      span(`class` := "badge badge-default badge-pill", "Text")
+                  )
+                case mi@MovieItem(t, _, _) =>
+                  li(
+                    onClick --> backend.addListItem(mi),
+                    a(
+                      div(`class` := "row",
+                        div(`class` := "col-xs-6",
+                          t
+                        ),
+                        div(`class` := "col-xs-6 text-right",
+                          span(`class` := "badge badge-default badge-pill", "Movie")
+                        )
+                      )
+                    )
+                  )
+              }
+            )
             else
               div
-          )
         )
     }
     .build

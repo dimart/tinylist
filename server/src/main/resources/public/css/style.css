@@ -18,3 +18,49 @@ body {
     bottom: 0;
     width: inherit;
 }
+
+.autocomplete {
+    background: #fff;
+    position: relative;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 2px rgba(0, 0, 0, 0.24);
+}
+
+.dialog {
+    width: 100%;
+    display: none;
+    min-height: 40px;
+    max-height: 330px;
+    overflow: scroll;
+    border-top: 1px solid #f4f4f4;
+    border-radius: 0px;
+}
+
+.dialog.open {
+    display: block;
+}
+
+.dialog div {
+    padding: 5px 5px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+input {
+    padding: 10px 10px;
+    font-weight: 300;
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    color: #666;
+}
+
+.remove {
+    color: #aaa;
+    cursor: pointer;
+    position: relative;
+    left: calc(100% - 80px);
+    top: 15px;
+}
+
