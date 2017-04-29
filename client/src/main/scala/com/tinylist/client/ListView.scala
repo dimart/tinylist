@@ -14,8 +14,12 @@ object ListView {
         }
 
         def renderEditing() = {
-          input(`type` := "text", `value` := state.tinyList.title, `class` := "form-control",
-            onChange ==> backend.editTitle, onBlur --> backend.toggleEditingMode)
+          div(`class` := "row",
+            div(`class` := "col-xs-2",
+              input(`type` := "text", `value` := state.tinyList.title, `class` := "form-control",
+                onChange ==> backend.editTitle, onBlur --> backend.toggleEditingMode)
+            )
+          )
         }
 
         def mkListItem(listItem: ListItem, left: ReactTag, body: ReactTag) = {

@@ -35,6 +35,7 @@ object App {
               ),
 
               AddItemBar(state, scope.backend),
+              hr(),
               ListView(state, scope.backend),
               SaveButton(state, scope.backend),
               if (state.tinyListId != props.tinyListId.getOrElse("X"))
