@@ -29,7 +29,7 @@ object App {
                 "Create lists and share them!",
                 p(
                   small(
-                  "Your list items can be movie infos from TMDB, songs samples from Spotify etc."
+                  "You can list movies from TMDB, songs from Spotify etc."
                   )
                 )
               ),
