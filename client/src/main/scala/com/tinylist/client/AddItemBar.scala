@@ -1,7 +1,7 @@
 package com.tinylist
 package client
 
-import api._
+import com.tinylist.api._
 import japgolly.scalajs.react.ReactComponentB
 import japgolly.scalajs.react.vdom.all._
 import japgolly.scalajs.react._
@@ -10,6 +10,23 @@ object AddItemBar {
   val component = ReactComponentB[(AppState, AppBackend)]("AddItemBar")
     .render_P {
       case (state, backend) =>
+
+        def mkCompletionListItem(listItem: ListItem, text: String, badge: String) = {
+          li(
+            onClick --> backend.addListItem(listItem),
+            a(
+              div(`class` := "row",
+                div(`class` := "col-xs-6",
+                  text
+                ),
+                div(`class` := "col-xs-6 text-right",
+                  span(`class` := "badge badge-default badge-pill", badge)
+                )
+              )
+            )
+          )
+        }
+
         div(
           `class` := "dropdown autocomplete",
 
@@ -26,25 +43,9 @@ object AddItemBar {
           if (state.completions.nonEmpty)
             ul(`class` := "dropdown-menu dialog open", role := "menu",
               state.completions.take(3) map {
-                case t@TextItem(_) =>
-                  li(
-                      onClick --> backend.addListItem(t),
-                      span(`class` := "badge badge-default badge-pill", "Text")
-                  )
-                case mi@MovieItem(t, _, _) =>
-                  li(
-                    onClick --> backend.addListItem(mi),
-                    a(
-                      div(`class` := "row",
-                        div(`class` := "col-xs-6",
-                          t
-                        ),
-                        div(`class` := "col-xs-6 text-right",
-                          span(`class` := "badge badge-default badge-pill", "Movie")
-                        )
-                      )
-                    )
-                  )
+                case t@TextItem(text) => mkCompletionListItem(t, text, "Text")
+                case mi@MovieItem(title, _, _) => mkCompletionListItem(mi, title, "Movie")
+                case ti@TrackItem(name, album, _, _) => mkCompletionListItem(ti, name + " from " + album, "Track")
               }
             )
             else

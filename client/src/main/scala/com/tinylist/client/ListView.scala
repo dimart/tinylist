@@ -1,7 +1,7 @@
 package com.tinylist
 package client
 
-import api._
+import com.tinylist.api._
 import japgolly.scalajs.react.ReactComponentB
 import japgolly.scalajs.react.vdom.all._
 
@@ -45,7 +45,7 @@ object ListView {
                   div(
                     `class` := "media-left",
                     img(
-                      `class` := "media-object",
+                      `class` := "media-object icon",
                       src := posterURL
                     )
                   ),
@@ -60,6 +60,39 @@ object ListView {
                     span(
                       `class` := "remove",
                       onClick --> backend.removeListItem(mi),
+                      "Remove"
+                    )
+                  )
+                )
+
+              case ti @ TrackItem(name, album, previewURL, posterURL) =>
+                div(
+                  `class` := "media panel panel-default",
+                  div(
+                    `class` := "media-left",
+                    img(
+                      `class` := "media-object icon",
+                      src := posterURL
+                    )
+                  ),
+                  div(
+                    `class` := "media-body panel-body",
+                    h5(`class` := "media-heading", name),
+                    p(album),
+                    audio(
+                      controls := true,
+                      key := previewURL,
+                      source(
+                        src := previewURL
+                      )
+                    )
+                  ),
+
+                  div(
+                    `class` := "media-right",
+                    span(
+                      `class` := "remove",
+                      onClick --> backend.removeListItem(ti),
                       "Remove"
                     )
                   )

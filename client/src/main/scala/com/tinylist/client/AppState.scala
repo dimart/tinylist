@@ -1,7 +1,7 @@
 package com.tinylist
 package client
 
-import api._
+import com.tinylist.api._
 
 object AppState {
   def default = AppState(

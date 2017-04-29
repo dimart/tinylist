@@ -1,7 +1,7 @@
 package com.tinylist
 package client
 
-import api._
+import com.tinylist.api._
 import japgolly.scalajs.react._
 import extra.router._
 

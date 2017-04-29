@@ -3,6 +3,7 @@ package client
 
 import autowire._
 import com.tinylist.api._
+import com.tinylist.client.api.{SpotifyApi, TMDBApi}
 import japgolly.scalajs.react._
 import org.scalajs.dom.ext.KeyCode
 import upickle.default.{read => uread}
@@ -39,7 +40,20 @@ class AppBackend(scope: BackendScope[AppProps, AppState]) {
                 MovieItem(title = res.title, overview = res.overview, posterURL = TMDBApi.moviePosterURL(res.poster_path))
               }
             }))
-      }})
+          }
+        }
+      ) >>
+      Callback.future(
+        SpotifyApi.searchTrack(s) map {
+          results => {
+            scope.modState(_.refreshCompletions(results map {
+              res => {
+                TrackItem(name = res.name, album = res.album.name , previewURL = res.preview_url, posterURL = res.album.images(0).url)
+              }
+            }))
+          }
+        }
+      )
    }
 
   def userInputOnKeyUp(e: ReactKeyboardEvent): Callback = {
