@@ -34,26 +34,27 @@ class AppBackend(scope: BackendScope[AppProps, AppState]) {
       scope.modState(_.setUserInput(s)) >>
       Callback.future(
         TMDBApi.searchMovie(s) map {
-          results => {
-            scope.modState(_.refreshCompletions(results map {
-              res => {
-                MovieItem(title = res.title, overview = res.overview, posterURL = TMDBApi.moviePosterURL(res.poster_path))
+        TMDBResults => {
+          Callback.future(
+            SpotifyApi.searchTrack(s) map {
+              SpotifyResults => {
+                scope.modState(_.refreshCompletions(
+                  (TMDBResults map {
+                    x => {
+                      MovieItem(title = x.title, overview = x.overview, posterURL = TMDBApi.moviePosterURL(x.poster_path))
+                    }
+                  }) ++ (SpotifyResults map {
+                    x => {
+                      TrackItem(name = x.name, album = x.album.name , previewURL = x.preview_url, posterURL = x.album.images(0).url)
+                    }
+                  })
+                ))
               }
-            }))
-          }
+            }
+          )
         }
-      ) >>
-      Callback.future(
-        SpotifyApi.searchTrack(s) map {
-          results => {
-            scope.modState(_.refreshCompletions(results map {
-              res => {
-                TrackItem(name = res.name, album = res.album.name , previewURL = res.preview_url, posterURL = res.album.images(0).url)
-              }
-            }))
-          }
-        }
-      )
+      }
+    )
    }
 
   def userInputOnKeyUp(e: ReactKeyboardEvent): Callback = {

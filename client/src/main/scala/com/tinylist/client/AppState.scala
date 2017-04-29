@@ -44,7 +44,9 @@ case class AppState(
   }
 
   def refreshCompletions(v: Seq[ListItem]): AppState = {
-    copy(completions = v)
+    val movies = v filter {case MovieItem(_, _, _) => true; case _ => false}
+    val tracks = v filter {case TrackItem(_, _, _, _) => true; case _ => false}
+    copy(completions = movies.take(2) union tracks.take(2))
   }
 
   def setTinyListId(v: TinyListId): AppState = {

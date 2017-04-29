@@ -42,7 +42,7 @@ object AddItemBar {
 
           if (state.completions.nonEmpty)
             ul(`class` := "dropdown-menu dialog open", role := "menu",
-              state.completions.take(3) map {
+              state.completions.take(4) map {
                 case t@TextItem(text) => mkCompletionListItem(t, text, "Text")
                 case mi@MovieItem(title, _, _) => mkCompletionListItem(mi, title, "Movie")
                 case ti@TrackItem(name, album, _, _) => mkCompletionListItem(ti, name + " from " + album, "Track")
