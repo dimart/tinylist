@@ -10,12 +10,12 @@ object ListView {
     .render_P {
       case (state, backend) =>
         def renderTitle() = {
-          h4(s"${state.tinyList.title}", onDoubleClick --> backend.editTitle)
+          h4(s"${state.tinyList.title}", onClick --> backend.toggleEditingMode)
         }
 
         def renderEditing() = {
           input(`type` := "text", `value` := state.tinyList.title, `class` := "form-control",
-            onChange ==> backend.editTitle, onKeyUp ==> backend.saveTitle)
+            onChange ==> backend.editTitle, onBlur --> backend.toggleEditingMode)
         }
 
         def mkListItem(listItem: ListItem, left: ReactTag, body: ReactTag) = {

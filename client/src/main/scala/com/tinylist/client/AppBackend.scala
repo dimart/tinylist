@@ -11,18 +11,19 @@ import upickle.default.{read => uread}
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class AppBackend(scope: BackendScope[AppProps, AppState]) {
-  def editTitle(): Callback = {
-    scope.modState(_.setIsEditingTitle(true))
-  }
 
   def editTitle(e: ReactEventI): Callback = {
     e.persist()
     scope.modState(_.setTitle(e.target.value))
   }
 
-  def saveTitle(e: ReactKeyboardEvent): Callback = {
-    e.persist()
-    scope.modState(_.setIsEditingTitle(e.keyCode != KeyCode.Enter))
+  def toggleEditingMode(): Callback = {
+    scope.modState({x => {
+      if (x.tinyList.title != "")
+        x.setIsEditingTitle(!x.isEditingTitle)
+      else
+        x.setTitle("New List").setIsEditingTitle(false)
+    }})
   }
 
   def editUserInput(e: ReactEventI): Callback = {
