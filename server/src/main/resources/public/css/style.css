@@ -31,10 +31,6 @@ body {
     max-height: 330px;
     overflow: scroll;
     border-radius: 0px;
-}
-
-.dialog.open {
-    display: block;
     border-top: 1px solid #f4f4f4;
     border-left: 0px;
     border-right: 0px;
