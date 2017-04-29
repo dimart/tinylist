@@ -65,7 +65,7 @@ object ListView {
                   )
                 )
 
-              case ti @ TrackItem(name, album, previewURL, posterURL) =>
+              case ti @ TrackItem(trackName, artistName, album, previewURL, posterURL) =>
                 div(
                   `class` := "media panel panel-default",
                   div(
@@ -77,8 +77,8 @@ object ListView {
                   ),
                   div(
                     `class` := "media-body panel-body",
-                    h5(`class` := "media-heading", name),
-                    p(album),
+                    h5(`class` := "media-heading", artistName),
+                    p(trackName + " from \"" + album + "\""),
                     audio(
                       controls := true,
                       key := previewURL,

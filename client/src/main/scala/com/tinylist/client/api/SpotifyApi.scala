@@ -21,6 +21,7 @@ trait ItemListing[T] extends js.Object {
 @js.native
 trait TrackInfo extends js.Object {
   def album: AlbumInfo
+  def artists: js.Array[ArtistInfo]
   def name: String
   def track_number: Int
   def duration_ms: Int
@@ -31,6 +32,11 @@ trait TrackInfo extends js.Object {
 trait AlbumInfo extends js.Object {
   def name: String
   def images: js.Array[AlbumCover]
+}
+
+@js.native
+trait ArtistInfo extends js.Object {
+  def name: String
 }
 
 @js.native

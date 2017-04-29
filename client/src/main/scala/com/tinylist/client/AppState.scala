@@ -44,8 +44,8 @@ case class AppState(
   }
 
   def refreshCompletions(v: Seq[ListItem]): AppState = {
-    val movies = v filter {case MovieItem(_, _, _) => true; case _ => false}
-    val tracks = v filter {case TrackItem(_, _, _, _) => true; case _ => false}
+    val movies = v filter {case mi:MovieItem => true; case _ => false}
+    val tracks = v filter {case ti:TrackItem => true; case _ => false}
     copy(completions = movies.take(2) union tracks.take(2))
   }
 

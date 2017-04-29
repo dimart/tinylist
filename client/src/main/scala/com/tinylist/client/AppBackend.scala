@@ -41,11 +41,21 @@ class AppBackend(scope: BackendScope[AppProps, AppState]) {
                 scope.modState(_.refreshCompletions(
                   (TMDBResults map {
                     x => {
-                      MovieItem(title = x.title, overview = x.overview, posterURL = TMDBApi.moviePosterURL(x.poster_path))
+                      MovieItem(
+                        title = x.title,
+                        overview = x.overview,
+                        posterURL = TMDBApi.moviePosterURL(x.poster_path)
+                      )
                     }
                   }) ++ (SpotifyResults map {
                     x => {
-                      TrackItem(name = x.name, album = x.album.name , previewURL = x.preview_url, posterURL = x.album.images(0).url)
+                      TrackItem(
+                        trackName = x.name,
+                        artistName = x.artists(0).name,
+                        album = x.album.name ,
+                        previewURL = x.preview_url,
+                        posterURL = x.album.images(0).url
+                      )
                     }
                   })
                 ))

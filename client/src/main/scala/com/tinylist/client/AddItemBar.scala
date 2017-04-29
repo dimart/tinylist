@@ -45,7 +45,9 @@ object AddItemBar {
               state.completions.take(4) map {
                 case t@TextItem(text) => mkCompletionListItem(t, text, "Text")
                 case mi@MovieItem(title, _, _) => mkCompletionListItem(mi, title, "Movie")
-                case ti@TrackItem(name, album, _, _) => mkCompletionListItem(ti, name + " from " + album, "Track")
+                case ti@TrackItem(trackName, artistName, album, _, _) => {
+                  mkCompletionListItem(ti, trackName + " – " + artistName + " from \"" + artistName + "\"", "Track")
+                }
               }
             )
             else
