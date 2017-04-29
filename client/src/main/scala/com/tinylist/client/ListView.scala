@@ -18,65 +18,56 @@ object ListView {
             onChange ==> backend.editTitle, onKeyUp ==> backend.saveTitle)
         }
 
+        def mkListItem(listItem: ListItem, left: ReactTag, body: ReactTag) = {
+          div(
+            `class` := "media panel panel-default",
+            div(
+              `class` := "media-left",
+              left
+            ),
+            div(
+              `class` := "media-body panel-body",
+              body
+            ),
+
+            div(
+              `class` := "media-right",
+              span(
+                `class` := "remove",
+                onClick --> backend.removeListItem(listItem),
+                "Remove"
+              )
+            )
+          )
+        }
+
         div(
           if (state.isEditingTitle) renderEditing() else renderTitle(),
           div(
             state.tinyList.items map {
-              case ti @ TextItem(t) =>
-                div(
-                  `class` := "media panel panel-default",
-                  div(
-                    `class` := "media-body panel-body",
-                    t
+              case ti @ TextItem(t) => mkListItem(ti, left = div, body = div(t))
+              case mi @ MovieItem(t, o, posterURL) => {
+                mkListItem(
+                  mi,
+                  left = img(
+                    `class` := "media-object icon",
+                    src := posterURL
                   ),
-
-                  div(
-                    `class` := "media-right",
-                    span(
-                      `class` := "remove",
-                      onClick --> backend.removeListItem(ti),
-                      "Remove"
-                    )
-                  )
-                )
-              case mi @ MovieItem(t, o, posterURL) =>
-                div(
-                  `class` := "media panel panel-default",
-                  div(
-                    `class` := "media-left",
-                    img(
-                      `class` := "media-object icon",
-                      src := posterURL
-                    )
-                  ),
-                  div(
-                    `class` := "media-body panel-body",
+                  body = div(
                     h5(`class` := "media-heading", t),
                     p(o)
-                  ),
-
-                  div(
-                    `class` := "media-right",
-                    span(
-                      `class` := "remove",
-                      onClick --> backend.removeListItem(mi),
-                      "Remove"
-                    )
                   )
                 )
+              }
 
-              case ti @ TrackItem(trackName, artistName, album, previewURL, posterURL) =>
-                div(
-                  `class` := "media panel panel-default",
-                  div(
-                    `class` := "media-left",
-                    img(
-                      `class` := "media-object icon",
-                      src := posterURL
-                    )
+              case ti @ TrackItem(trackName, artistName, album, previewURL, posterURL) => {
+                mkListItem(
+                  ti,
+                  left = img(
+                    `class` := "media-object icon",
+                    src := posterURL
                   ),
-                  div(
-                    `class` := "media-body panel-body",
+                  body = div(
                     h5(`class` := "media-heading", artistName),
                     p(trackName + " from \"" + album + "\""),
                     audio(
@@ -86,17 +77,9 @@ object ListView {
                         src := previewURL
                       )
                     )
-                  ),
-
-                  div(
-                    `class` := "media-right",
-                    span(
-                      `class` := "remove",
-                      onClick --> backend.removeListItem(ti),
-                      "Remove"
-                    )
                   )
                 )
+              }
             }
           )
         )
