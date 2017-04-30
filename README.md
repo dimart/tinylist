@@ -8,6 +8,7 @@ The goal of this project was to learn:
 * [React](https://facebook.github.io/react/)
 * [akka-http](https://github.com/akka/akka-http)
 * [Autowire](https://github.com/lihaoyi/autowire)
+* [sbt](http://www.scala-sbt.org/)
 * [Bootstrap](https://getbootstrap.com/)
 
 ## Build
