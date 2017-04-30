@@ -1,6 +1,9 @@
 # TinyList
 Create and share your lists.
+
 You can list movies from [TMDB](https://www.themoviedb.org), songs from [Spotify](https://www.spotify.com) and regular text.
+
+## [Demo (without server)](https://dimart.github.io/tinylist)
 
 ![Demo](/misc/demo.gif)
 
